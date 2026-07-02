@@ -10,7 +10,7 @@ class RomboPuzzle:
     def __init__(self, root):
 
         self.root = root
-        self.root.title("Rompecabezas de Rombos")
+        self.root.title("Rhombus puzzle")
         self.root.geometry("1100x750")
 
         self.imagen_original = None
@@ -21,7 +21,7 @@ class RomboPuzzle:
 
         tk.Button(
             panel,
-            text="Cargar imagen",
+            text="  Load image",
             command=self.cargar_imagen
         ).pack(side="left", padx=5)
 
@@ -40,13 +40,13 @@ class RomboPuzzle:
 
         tk.Button(
             panel,
-            text="Generar",
+            text="Generate",
             command=self.generar_rombos
         ).pack(side="left", padx=10)
 
         tk.Button(
             panel,
-            text="Guardar JPG",
+            text="Save JPG",
             command=self.guardar
         ).pack(side="left")
 
@@ -156,7 +156,7 @@ class RomboPuzzle:
 
             messagebox.showwarning(
                 "Aviso",
-                "Genere primero el rompecabezas"
+                "Generate first the puzzle"
             )
 
             return
@@ -178,8 +178,8 @@ class RomboPuzzle:
         )
 
         messagebox.showinfo(
-            "Listo",
-            "Imagen guardada correctamente."
+            "Ready",
+            "Imagen saved correctly."
         )
 
 

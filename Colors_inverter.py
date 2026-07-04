@@ -4,14 +4,14 @@ import numpy as np
 from io import BytesIO
 
 st.set_page_config(
-    page_title="Inversor de Colores",
+    page_title="Color Inverter",
     page_icon="🎨"
 )
 
-st.title("🎨 Inversor de Colores")
+st.title("Color Inverter")
 
 archivo = st.file_uploader(
-    "Selecciona una imagen",
+    "Select an image",
     type=["png", "jpg", "jpeg", "bmp", "gif", "webp"]
 )
 
@@ -19,7 +19,7 @@ if archivo is not None:
 
     imagen = Image.open(archivo)
 
-    st.subheader("Imagen Original")
+    st.subheader("Original Image")
     st.image(imagen, use_container_width=True)
 
     img_np = np.array(imagen)
@@ -34,7 +34,7 @@ if archivo is not None:
         img_invertida.astype(np.uint8)
     )
 
-    st.subheader("Imagen Invertida")
+    st.subheader("Inverted Image")
     st.image(imagen_invertida, use_container_width=True)
 
     buffer = BytesIO()
@@ -45,7 +45,7 @@ if archivo is not None:
     )
 
     st.download_button(
-        label="⬇️ Descargar Imagen Invertida",
+        label="Download Inverted Image",
         data=buffer.getvalue(),
         file_name="imagen_invertida.png",
         mime="image/png"

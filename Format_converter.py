@@ -3,14 +3,14 @@ from PIL import Image
 from io import BytesIO
 
 st.set_page_config(
-    page_title="Convertidor de Imágenes",
+    page_title="Image format converter",
     page_icon="🖼️"
 )
 
-st.title("🖼️ Convertidor de Imágenes")
+st.title("Image format converter")
 
 archivo = st.file_uploader(
-    "Selecciona una imagen",
+    "Select an image",
     type=["png", "jpg", "jpeg", "bmp", "gif", "tiff", "webp"]
 )
 
@@ -24,7 +24,7 @@ formatos = {
 }
 
 formato_salida = st.selectbox(
-    "Formato de salida",
+    "Output format",
     list(formatos.keys())
 )
 
@@ -50,7 +50,7 @@ if archivo is not None:
     nombre_original = archivo.name.rsplit(".", 1)[0]
 
     st.download_button(
-        label=f"⬇️ Descargar como {formato_salida}",
+        label=f"Download as {formato_salida}",
         data=buffer,
         file_name=f"{nombre_original}.{formatos[formato_salida]}",
         mime=f"image/{formatos[formato_salida]}"

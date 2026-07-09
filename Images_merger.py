@@ -5,25 +5,25 @@ import cv2
 from io import BytesIO
 
 st.set_page_config(
-    page_title="Mezclador de Imágenes",
+    page_title="Image merger",
     page_icon="🖼️",
     layout="wide"
 )
 
-st.title("🖼️ Mezclador de Imágenes")
+st.title("Image merger")
 
 col1, col2 = st.columns(2)
 
 with col1:
     archivo1 = st.file_uploader(
-        "Imagen A",
+        "Image A",
         type=["png", "jpg", "jpeg", "bmp", "webp"],
         key="img1"
     )
 
 with col2:
     archivo2 = st.file_uploader(
-        "Imagen B",
+        "Image B",
         type=["png", "jpg", "jpeg", "bmp", "webp"],
         key="img2"
     )
@@ -43,7 +43,7 @@ if archivo1 and archivo2:
     np2 = np.array(img2)
 
     porcentaje = st.slider(
-        "Contribución de la Imagen A (%)",
+        "Image A contribution (%)",
         min_value=0,
         max_value=100,
         value=50
@@ -65,15 +65,15 @@ if archivo1 and archivo2:
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.subheader("Imagen A")
+        st.subheader("Image A")
         st.image(img1)
 
     with col2:
-        st.subheader("Imagen B")
+        st.subheader("Image B")
         st.image(img2)
 
     with col3:
-        st.subheader("Resultado")
+        st.subheader("Result")
         st.image(imagen_resultado)
 
     buffer = BytesIO()
@@ -84,7 +84,7 @@ if archivo1 and archivo2:
     )
 
     st.download_button(
-        label="⬇️ Descargar resultado",
+        label="Download result",
         data=buffer.getvalue(),
         file_name="imagen_combinada.png",
         mime="image/png"

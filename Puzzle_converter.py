@@ -14,7 +14,7 @@ class RomboPuzzle:
         self.root.geometry("1100x750")
 
         self.imagen_original = None
-        self.imagen_resultado = None
+        self.image_result = None
 
         panel = tk.Frame(root)
         panel.pack(fill="x", pady=10)
@@ -22,7 +22,7 @@ class RomboPuzzle:
         tk.Button(
             panel,
             text="  Load image",
-            command=self.cargar_imagen
+            command=self.load_image
         ).pack(side="left", padx=5)
 
         tk.Label(panel, text="Tamaño del rombo:").pack(side="left")
@@ -41,7 +41,7 @@ class RomboPuzzle:
         tk.Button(
             panel,
             text="Generate",
-            command=self.generar_rombos
+            command=self.generate_rombos
         ).pack(side="left", padx=10)
 
         tk.Button(
@@ -53,7 +53,7 @@ class RomboPuzzle:
         self.lbl_img = tk.Label(root)
         self.lbl_img.pack(expand=True)
 
-    def cargar_imagen(self):
+    def load_image(self):
 
         ruta = filedialog.askopenfilename(
             filetypes=[
@@ -68,7 +68,7 @@ class RomboPuzzle:
 
         self.mostrar(self.imagen_original)
 
-    def dibujar_rombos(self, img, lado):
+    def draw_rombos(self, img, lado):
 
         h, w = img.shape[:2]
 
@@ -111,7 +111,7 @@ class RomboPuzzle:
 
         return img
 
-    def generar_rombos(self):
+    def generate_rombos(self):
 
         if self.imagen_original is None:
             messagebox.showwarning(
@@ -124,12 +124,12 @@ class RomboPuzzle:
 
         resultado = self.imagen_original.copy()
 
-        resultado = self.dibujar_rombos(
+        resultado = self.draw_rombos(
             resultado,
             lado
         )
 
-        self.imagen_resultado = resultado
+        self.image_result = resultado
 
         self.mostrar(resultado)
 
@@ -152,7 +152,7 @@ class RomboPuzzle:
 
     def guardar(self):
 
-        if self.imagen_resultado is None:
+        if self.image_result is None:
 
             messagebox.showwarning(
                 "Aviso",
@@ -173,7 +173,7 @@ class RomboPuzzle:
 
         cv2.imwrite(
             ruta,
-            self.imagen_resultado,
+            self.image_result,
             [cv2.IMWRITE_JPEG_QUALITY, 100]
         )
 

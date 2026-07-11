@@ -3,14 +3,14 @@ from PIL import Image
 from io import BytesIO
 
 st.set_page_config(
-    page_title="Compresor de Imágenes",
+    page_title="Image Compressor",
     page_icon="🗜️"
 )
 
-st.title("🗜️ Reductor de Calidad de Imágenes")
+st.title("Image Weight Reduction")
 
 archivo = st.file_uploader(
-    "Selecciona una imagen",
+    "Select one image",
     type=["jpg", "jpeg", "png", "webp", "bmp"]
 )
 
@@ -22,7 +22,7 @@ niveles = {
 }
 
 nivel = st.selectbox(
-    "Nivel de calidad",
+    "Quality Level",
     list(niveles.keys())
 )
 
@@ -58,7 +58,7 @@ if archivo is not None:
 
     with col1:
         st.metric(
-            "Tamaño original",
+            "Original Size",
             f"{tamaño_original:.1f} KB"
         )
 

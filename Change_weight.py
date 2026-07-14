@@ -64,7 +64,7 @@ if archivo is not None:
 
     with col2:
         st.metric(
-            "Tamaño comprimido",
+            "Compressed size",
             f"{tamaño_comprimido:.1f} KB"
         )
 
@@ -73,11 +73,11 @@ if archivo is not None:
     )
 
     st.success(
-        f"Reducción aproximada: {ahorro:.1f}%"
+        f"Aprox. Reduction: {ahorro:.1f}%"
     )
 
     st.download_button(
-        label="⬇️ Descargar imagen comprimida",
+        label="Download compressed image",
         data=buffer.getvalue(),
         file_name=f"comprimida_{nivel.lower()}.jpg",
         mime="image/jpeg"

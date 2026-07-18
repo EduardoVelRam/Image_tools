@@ -1,0 +1,126 @@
+import streamlit as st
+from PIL import Image
+import numpy as np
+import cv2
+from io import BytesIO
+import math
+
+st.set_page_config(
+    page_title="Efecto Mosaico",
+    page_icon="🧩"
+)
+
+st.title("🧩 Generador de Mosaicos")
+
+archivo = st.file_uploader(
+    "Selecciona una imagen",
+    type=["png","jpg","jpeg","bmp","webp"]
+)
+
+if archivo is not None:
+
+    imagen = Image.open(archivo).convert("RGB")
+
+    st.subheader("Imagen original")
+    st.image(imagen, use_container_width=True)
+
+    tamaño = st.slider(
+        "Tamaño del mosaico",
+        5,
+        80,
+        20
+    )
+
+    figura = st.selectbox(
+        "Figura",
+        [
+            "Cuadrados",
+            "Círculos",
+            "Hexágonos"
+        ]
+    )
+
+    img = np.array(imagen)
+
+    alto, ancho = img.shape[:2]
+
+    salida = np.full_like(img, 255)
+
+    for y in range(0, alto, tamaño):
+
+        for x in range(0, ancho, tamaño):
+
+            bloque = img[
+                y:min(y+tamaño,alto),
+                x:min(x+tamaño,ancho)
+            ]
+
+            color = bloque.mean(axis=(0,1)).astype(np.uint8)
+
+            cx = x + tamaño//2
+            cy = y + tamaño//2
+
+            if figura == "Cuadrados":
+
+                cv2.rectangle(
+                    salida,
+                    (x,y),
+                    (
+                        min(x+tamaño,ancho),
+                        min(y+tamaño,alto)
+                    ),
+                    color.tolist(),
+                    -1
+                )
+
+            elif figura == "Círculos":
+
+                radio = tamaño//2
+
+                cv2.circle(
+                    salida,
+                    (cx,cy),
+                    radio,
+                    color.tolist(),
+                    -1
+                )
+
+            elif figura == "Hexágonos":
+
+                r = tamaño//2
+
+                puntos = []
+
+                for angulo in range(6):
+
+                    a = math.radians(60*angulo)
+
+                    px = int(cx + r*np.cos(a))
+                    py = int(cy + r*np.sin(a))
+
+                    puntos.append([px,py])
+
+                puntos = np.array(puntos,np.int32)
+
+                cv2.fillPoly(
+                    salida,
+                    [puntos],
+                    color.tolist()
+                )
+
+    resultado = Image.fromarray(salida)
+
+    st.subheader("Resultado")
+
+    st.image(resultado, use_container_width=True)
+
+    buffer = BytesIO()
+
+    resultado.save(buffer,format="PNG")
+
+    st.download_button(
+        "⬇️ Descargar mosaico",
+        buffer.getvalue(),
+        "mosaico.png",
+        "image/png"
+    )

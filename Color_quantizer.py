@@ -28,7 +28,7 @@ if archivo is not None:
     st.image(imagen, use_container_width=True)
 
     niveles = st.slider(
-        "Número de niveles por canal RGB",
+        "Number of levels for RGB channel",
         min_value=2,
         max_value=256,
         value=8,
@@ -47,7 +47,7 @@ if archivo is not None:
 
     resultado = Image.fromarray(cuantizada)
 
-    st.subheader("Imagen Cuantizada")
+    st.subheader("Quantized Image")
     st.image(resultado, use_container_width=True)
 
     buffer = BytesIO()

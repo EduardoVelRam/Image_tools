@@ -6,14 +6,14 @@ from io import BytesIO
 import math
 
 st.set_page_config(
-    page_title="Efecto Mosaico",
+    page_title="Mosaic effect",
     page_icon="🧩"
 )
 
-st.title("🧩 Generador de Mosaicos")
+st.title("Mosaics Generator")
 
 archivo = st.file_uploader(
-    "Selecciona una imagen",
+    "Select one image",
     type=["png","jpg","jpeg","bmp","webp"]
 )
 
@@ -21,11 +21,11 @@ if archivo is not None:
 
     imagen = Image.open(archivo).convert("RGB")
 
-    st.subheader("Imagen original")
+    st.subheader("Original image")
     st.image(imagen, use_container_width=True)
 
     tamaño = st.slider(
-        "Tamaño del mosaico",
+        "Mosaico size",
         5,
         80,
         20
@@ -119,7 +119,7 @@ if archivo is not None:
     resultado.save(buffer,format="PNG")
 
     st.download_button(
-        "⬇️ Descargar mosaico",
+        "Download mosaic",
         buffer.getvalue(),
         "mosaico.png",
         "image/png"

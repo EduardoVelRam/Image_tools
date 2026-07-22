@@ -4,19 +4,19 @@ import numpy as np
 from io import BytesIO
 
 st.set_page_config(
-    page_title="Cuantizador de Colores",
+    page_title="Color Quantizer",
     page_icon="🎨"
 )
 
-st.title("🎨 Cuantizador de Colores")
+st.title("Color Quantizer")
 
 st.write(
-    "Reduce la cantidad de colores de una imagen "
-    "sin utilizar algoritmos de IA."
+    "Reduce the quantity of colors of one image "
+    "without using AI algorithms."
 )
 
 archivo = st.file_uploader(
-    "Selecciona una imagen",
+    "Select one image",
     type=["png", "jpg", "jpeg", "bmp", "webp"]
 )
 
@@ -24,7 +24,7 @@ if archivo is not None:
 
     imagen = Image.open(archivo).convert("RGB")
 
-    st.subheader("Imagen Original")
+    st.subheader("Original Image")
     st.image(imagen, use_container_width=True)
 
     niveles = st.slider(
@@ -58,7 +58,7 @@ if archivo is not None:
     )
 
     st.download_button(
-        "⬇️ Descargar imagen",
+        "Download image",
         buffer.getvalue(),
         "imagen_cuantizada.png",
         "image/png"

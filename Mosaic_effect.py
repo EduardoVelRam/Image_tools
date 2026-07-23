@@ -10,7 +10,7 @@ st.set_page_config(
     page_icon="🧩"
 )
 
-st.title("Mosaics Generator")
+st.title("Mosaic Generator")
 
 archivo = st.file_uploader(
     "Select one image",
@@ -25,18 +25,18 @@ if archivo is not None:
     st.image(imagen, use_container_width=True)
 
     tamaño = st.slider(
-        "Mosaico size",
+        "Mosaic size",
         5,
         80,
         20
     )
 
     figura = st.selectbox(
-        "Figura",
+        "Figure",
         [
-            "Cuadrados",
-            "Círculos",
-            "Hexágonos"
+            "Squares",
+            "Circles",
+            "Hexagons"
         ]
     )
 
@@ -60,7 +60,7 @@ if archivo is not None:
             cx = x + tamaño//2
             cy = y + tamaño//2
 
-            if figura == "Cuadrados":
+            if figura == "Squares":
 
                 cv2.rectangle(
                     salida,
@@ -73,7 +73,7 @@ if archivo is not None:
                     -1
                 )
 
-            elif figura == "Círculos":
+            elif figura == "Circles":
 
                 radio = tamaño//2
 
@@ -85,7 +85,7 @@ if archivo is not None:
                     -1
                 )
 
-            elif figura == "Hexágonos":
+            elif figura == "Hexagons":
 
                 r = tamaño//2
 
@@ -110,7 +110,7 @@ if archivo is not None:
 
     resultado = Image.fromarray(salida)
 
-    st.subheader("Resultado")
+    st.subheader("Result")
 
     st.image(resultado, use_container_width=True)
 

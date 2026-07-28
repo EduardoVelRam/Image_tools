@@ -15,10 +15,10 @@ archivo = st.file_uploader(
 )
 
 niveles = {
-    "Alta": 90,
-    "Media": 60,
-    "Baja": 30,
-    "Muy Baja": 10
+    "High": 90,
+    "Medium": 60,
+    "Low": 30,
+    "Very Low": 10
 }
 
 nivel = st.selectbox(
@@ -30,7 +30,7 @@ if archivo is not None:
 
     imagen = Image.open(archivo).convert("RGB")
 
-    st.subheader("Imagen original")
+    st.subheader("Original image")
     st.image(imagen, use_container_width=True)
 
     calidad = niveles[nivel]
@@ -48,7 +48,7 @@ if archivo is not None:
 
     imagen_comprimida = Image.open(buffer)
 
-    st.subheader("Imagen comprimida")
+    st.subheader("Compressed Image")
     st.image(imagen_comprimida, use_container_width=True)
 
     tamaño_original = len(archivo.getvalue()) / 1024

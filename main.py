@@ -24,7 +24,7 @@ archivos.sort()
 
 opcion = st.sidebar.selectbox(
 
-    "Selecciona una herramienta",
+    "Select one tool",
 
     archivos
 

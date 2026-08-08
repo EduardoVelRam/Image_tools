@@ -2,83 +2,88 @@ import streamlit as st
 from PIL import Image
 from io import BytesIO
 
-st.set_page_config(
-    page_title="Image Compressor",
-    page_icon="🗜️"
-)
+def run():
+    st.title("Change weight")
 
-st.title("Image Weight Reduction")
+    st.write("Aquí va el código.")
 
-archivo = st.file_uploader(
-    "Select one image",
-    type=["jpg", "jpeg", "png", "webp", "bmp"]
-)
-
-niveles = {
-    "High": 90,
-    "Medium": 60,
-    "Low": 30,
-    "Very Low": 10
-}
-
-nivel = st.selectbox(
-    "Quality Level",
-    list(niveles.keys())
-)
-
-if archivo is not None:
-
-    imagen = Image.open(archivo).convert("RGB")
-
-    st.subheader("Original image")
-    st.image(imagen, use_container_width=True)
-
-    calidad = niveles[nivel]
-
-    buffer = BytesIO()
-
-    imagen.save(
-        buffer,
-        format="JPEG",
-        quality=calidad,
-        optimize=True
+    st.set_page_config(
+        page_title="Image Compressor",
+        page_icon="🗜️"
     )
 
-    buffer.seek(0)
+    st.title("Image Weight Reduction")
 
-    imagen_comprimida = Image.open(buffer)
+    archivo = st.file_uploader(
+        "Select one image",
+        type=["jpg", "jpeg", "png", "webp", "bmp"]
+    )
 
-    st.subheader("Compressed Image")
-    st.image(imagen_comprimida, use_container_width=True)
+    niveles = {
+        "High": 90,
+        "Medium": 60,
+        "Low": 30,
+        "Very Low": 10
+    }
 
-    tamaño_original = len(archivo.getvalue()) / 1024
-    tamaño_comprimido = len(buffer.getvalue()) / 1024
+    nivel = st.selectbox(
+        "Quality Level",
+        list(niveles.keys())
+    )
 
-    col1, col2 = st.columns(2)
+    if archivo is not None:
 
-    with col1:
-        st.metric(
-            "Original Size",
-            f"{tamaño_original:.1f} KB"
+        imagen = Image.open(archivo).convert("RGB")
+
+        st.subheader("Original image")
+        st.image(imagen, use_container_width=True)
+
+        calidad = niveles[nivel]
+
+        buffer = BytesIO()
+
+        imagen.save(
+            buffer,
+            format="JPEG",
+            quality=calidad,
+            optimize=True
         )
 
-    with col2:
-        st.metric(
-            "Compressed size",
-            f"{tamaño_comprimido:.1f} KB"
+        buffer.seek(0)
+
+        imagen_comprimida = Image.open(buffer)
+
+        st.subheader("Compressed Image")
+        st.image(imagen_comprimida, use_container_width=True)
+
+        tamaño_original = len(archivo.getvalue()) / 1024
+        tamaño_comprimido = len(buffer.getvalue()) / 1024
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.metric(
+                "Original Size",
+                f"{tamaño_original:.1f} KB"
+            )
+
+        with col2:
+            st.metric(
+                "Compressed size",
+                f"{tamaño_comprimido:.1f} KB"
+            )
+
+        ahorro = 100 * (
+            1 - tamaño_comprimido / tamaño_original
         )
 
-    ahorro = 100 * (
-        1 - tamaño_comprimido / tamaño_original
-    )
+        st.success(
+            f"Aprox. Reduction: {ahorro:.1f}%"
+        )
 
-    st.success(
-        f"Aprox. Reduction: {ahorro:.1f}%"
-    )
-
-    st.download_button(
-        label="Download compressed image",
-        data=buffer.getvalue(),
-        file_name=f"comprimida_{nivel.lower()}.jpg",
-        mime="image/jpeg"
-    )
+        st.download_button(
+            label="Download compressed image",
+            data=buffer.getvalue(),
+            file_name=f"comprimida_{nivel.lower()}.jpg",
+            mime="image/jpeg"
+        )

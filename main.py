@@ -4,11 +4,10 @@ import os
 
 st.set_page_config(
     page_title="Herramientas para Imágenes",
-    page_icon="🖼️",
     layout="wide"
 )
 
-st.title("Colección de Herramientas")
+st.title("Colección de herramientas para imágenes")
 
 CARPETA = "tools"
 

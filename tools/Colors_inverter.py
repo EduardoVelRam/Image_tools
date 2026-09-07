@@ -10,7 +10,6 @@ def run():
     
     st.set_page_config(
         page_title="Color Inverter",
-        page_icon="🎨"
     )
 
     st.title("Color Inverter")

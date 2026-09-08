@@ -3,106 +3,108 @@ from PIL import Image
 import numpy as np
 from io import BytesIO
 
-st.set_page_config(
-    page_title="Blanco y Azul",
-    page_icon="🔵"
-)
-
-st.title("Conversor Blanco y Azul")
-
-archivo = st.file_uploader(
-    "Selecciona una imagen",
-    type=["png", "jpg", "jpeg", "bmp", "webp"]
-)
-
-if archivo is not None:
-
-    imagen = Image.open(archivo).convert("L")
-
-    st.subheader("Imagen original")
-
-    st.image(
-        imagen,
-        use_container_width=True
+def run():
+    
+    st.set_page_config(
+        page_title="Blanco y Azul",
+        page_icon="🔵"
     )
 
-    # Convertir imagen a NumPy
-    gris = np.array(imagen).astype(np.float32)
+    st.title("Conversor Blanco y Azul")
 
-    # -----------------------------------------
-    # Color azul seleccionado por el usuario
-    # -----------------------------------------
-
-    st.subheader("Configuración")
-
-    azul = st.color_picker(
-        "Selecciona el color azul",
-        "#0057B8"
+    archivo = st.file_uploader(
+        "Selecciona una imagen",
+        type=["png", "jpg", "jpeg", "bmp", "webp"]
     )
 
-    # Convertir HEX a RGB
-    azul = azul.lstrip("#")
+    if archivo is not None:
 
-    azul_r = int(azul[0:2], 16)
-    azul_g = int(azul[2:4], 16)
-    azul_b = int(azul[4:6], 16)
+        imagen = Image.open(archivo).convert("L")
 
-    # -----------------------------------------
-    # Crear imagen
-    # -----------------------------------------
+        st.subheader("Imagen original")
 
-    resultado = np.zeros(
-        (gris.shape[0], gris.shape[1], 3),
-        dtype=np.uint8
-    )
+        st.image(
+            imagen,
+            use_container_width=True
+        )
 
-    intensidad = gris / 255.0
+        # Convertir imagen a NumPy
+        gris = np.array(imagen).astype(np.float32)
 
-    # Negro -> azul
-    # Blanco -> blanco
+        # -----------------------------------------
+        # Color azul seleccionado por el usuario
+        # -----------------------------------------
 
-    resultado[:, :, 0] = (
-        azul_r * (1 - intensidad) +
-        255 * intensidad
-    )
+        st.subheader("Configuración")
 
-    resultado[:, :, 1] = (
-        azul_g * (1 - intensidad) +
-        255 * intensidad
-    )
+        azul = st.color_picker(
+            "Selecciona el color azul",
+            "#0057B8"
+        )
 
-    resultado[:, :, 2] = (
-        azul_b * (1 - intensidad) +
-        255 * intensidad
-    )
+        # Convertir HEX a RGB
+        azul = azul.lstrip("#")
 
-    resultado = resultado.astype(np.uint8)
+        azul_r = int(azul[0:2], 16)
+        azul_g = int(azul[2:4], 16)
+        azul_b = int(azul[4:6], 16)
 
-    imagen_final = Image.fromarray(
-        resultado
-    )
+        # -----------------------------------------
+        # Crear imagen
+        # -----------------------------------------
 
-    st.subheader("Resultado")
+        resultado = np.zeros(
+            (gris.shape[0], gris.shape[1], 3),
+            dtype=np.uint8
+        )
 
-    st.image(
-        imagen_final,
-        use_container_width=True
-    )
+        intensidad = gris / 255.0
 
-    # -----------------------------------------
-    # Descargar
-    # -----------------------------------------
+        # Negro -> azul
+        # Blanco -> blanco
 
-    buffer = BytesIO()
+        resultado[:, :, 0] = (
+            azul_r * (1 - intensidad) +
+            255 * intensidad
+        )
 
-    imagen_final.save(
-        buffer,
-        format="PNG"
-    )
+        resultado[:, :, 1] = (
+            azul_g * (1 - intensidad) +
+            255 * intensidad
+        )
 
-    st.download_button(
-        label="Descargar imagen",
-        data=buffer.getvalue(),
-        file_name="imagen_blanco_azul.png",
-        mime="image/png"
-    )
+        resultado[:, :, 2] = (
+            azul_b * (1 - intensidad) +
+            255 * intensidad
+        )
+
+        resultado = resultado.astype(np.uint8)
+
+        imagen_final = Image.fromarray(
+            resultado
+        )
+
+        st.subheader("Resultado")
+
+        st.image(
+            imagen_final,
+            use_container_width=True
+        )
+
+        # -----------------------------------------
+        # Descargar
+        # -----------------------------------------
+
+        buffer = BytesIO()
+
+        imagen_final.save(
+            buffer,
+            format="PNG"
+        )
+
+        st.download_button(
+            label="Descargar imagen",
+            data=buffer.getvalue(),
+            file_name="imagen_blanco_azul.png",
+            mime="image/png"
+        )

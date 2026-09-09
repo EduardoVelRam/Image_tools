@@ -7,12 +7,14 @@ import torch.nn as nn
 import torch.optim as optim
 
 
-# Red neuronal de una sola capa
+#def run():
+
+    # Red neuronal de una sola capa
 class Inversor(nn.Module):
     def __init__(self):
         super().__init__()
 
-        # Una entrada -> una salida
+            # Una entrada -> una salida
         self.capa = nn.Linear(1, 1)
 
     def forward(self, x):
@@ -21,39 +23,38 @@ class Inversor(nn.Module):
 
 def entrenar_red():
 
-    # Valores de entrada: 0-255
+        # Valores de entrada: 0-255
     x = torch.arange(256, dtype=torch.float32).reshape(-1, 1)
 
-    # Valores objetivo: 255-x
+        # Valores objetivo: 255-x
     y = 255 - x
 
     modelo = Inversor()
 
-    # Función de pérdida
+        # Función de pérdida
     criterio = nn.MSELoss()
 
-    # Optimizador
+        # Optimizador
     optimizador = optim.SGD(
         modelo.parameters(),
         lr=0.001
-    )
+        )
 
-    # Entrenamiento
+        # Entrenamiento
     for epoch in range(5000):
 
-        # Forward
+            # Forward
         prediccion = modelo(x)
 
-        # Error
+            # Error
         perdida = criterio(prediccion, y)
 
-        # Backpropagation
+            # Backpropagation
         optimizador.zero_grad()
         perdida.backward()
         optimizador.step()
 
     return modelo
-
 
 def run():
 
@@ -95,7 +96,7 @@ def run():
         imagen = Image.open(archivo).convert("RGB")
 
         st.subheader("Original Image")
-        st.image(imagen, use_container_width=True)
+        st.image(imagen, width='stretch')
 
         # Convertir imagen a NumPy
         img_np = np.array(imagen)
@@ -124,12 +125,7 @@ def run():
         )
 
         # Regresar a NumPy
-        img_invertida = (
-            pixeles_invertidos
-            .reshape(shape_original)
-            .numpy()
-            .astype(np.uint8)
-        )
+        img_invertida = (pixeles_invertidos.reshape(shape_original).numpy().astype(np.uint8))
 
         # Convertir a imagen
         imagen_invertida = Image.fromarray(
@@ -139,7 +135,7 @@ def run():
         st.subheader("Inverted Image")
         st.image(
             imagen_invertida,
-            use_container_width=True
+            width='stretch'
         )
 
         # Descargar

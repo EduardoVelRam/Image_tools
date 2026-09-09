@@ -28,17 +28,33 @@ def run():
 
         img_np = np.array(imagen)
 
+        # Contrast
+        min_val = np.min(img_np)
+        max_val = np.max(img_np)
+        def contrast_stretching(pixel):
+            return (pixel - min_val) * (255 / (max_val - min_val))
+
+        # Con función logaritmo
+        def log_transform(pixel):
+            c = 255 / np.log(1 + np.max(pixel))
+            return c * np.log(1 + pixel)
+
         # Invertir colores
         if len(img_np.shape) == 3:
             img_invertida = 255 - img_np
         else:
             img_invertida = 255 - img_np
 
+        #if len(img_np.shape) == 3:
+        #    img_invertida = log_transform(img_np)
+        #else:
+        #    img_invertida = log_transform(img_np)
+
         imagen_invertida = Image.fromarray(
             img_invertida.astype(np.uint8)
         )
 
-        st.subheader("Inverted Image")
+        st.subheader("Transformed Image")
         st.image(imagen_invertida, use_container_width=True)
 
         buffer = BytesIO()
@@ -49,7 +65,7 @@ def run():
         )
 
         st.download_button(
-            label="Download Inverted Image",
+            label="Download Transformed Image",
             data=buffer.getvalue(),
             file_name="imagen_invertida.png",
             mime="image/png"

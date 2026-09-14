@@ -5,122 +5,124 @@ import cv2
 from io import BytesIO
 import math
 
-st.set_page_config(
-    page_title="Mosaic effect",
-    page_icon="🧩"
-)
+def run():
 
-st.title("Mosaic Generator")
-
-archivo = st.file_uploader(
-    "Select one image",
-    type=["png","jpg","jpeg","bmp","webp"]
-)
-
-if archivo is not None:
-
-    imagen = Image.open(archivo).convert("RGB")
-
-    st.subheader("Original image")
-    st.image(imagen, use_container_width=True)
-
-    tamaño = st.slider(
-        "Mosaic size",
-        5,
-        80,
-        20
+    st.set_page_config(
+        page_title="Mosaic effect",
+        page_icon="🧩"
     )
 
-    figura = st.selectbox(
-        "Figure",
-        [
-            "Squares",
-            "Circles",
-            "Hexagons"
-        ]
+    st.title("Mosaic Generator")
+
+    archivo = st.file_uploader(
+        "Select one image",
+        type=["png","jpg","jpeg","bmp","webp"]
     )
 
-    img = np.array(imagen)
+    if archivo is not None:
 
-    alto, ancho = img.shape[:2]
+        imagen = Image.open(archivo).convert("RGB")
 
-    salida = np.full_like(img, 255)
+        st.subheader("Original image")
+        st.image(imagen, use_container_width=True)
 
-    for y in range(0, alto, tamaño):
+        tamaño = st.slider(
+            "Mosaic size",
+            5,
+            80,
+            20
+        )
 
-        for x in range(0, ancho, tamaño):
-
-            bloque = img[
-                y:min(y+tamaño,alto),
-                x:min(x+tamaño,ancho)
+        figura = st.selectbox(
+            "Figure",
+            [
+                "Squares",
+                "Circles",
+                "Hexagons"
             ]
+        )
 
-            color = bloque.mean(axis=(0,1)).astype(np.uint8)
+        img = np.array(imagen)
 
-            cx = x + tamaño//2
-            cy = y + tamaño//2
+        alto, ancho = img.shape[:2]
 
-            if figura == "Squares":
+        salida = np.full_like(img, 255)
 
-                cv2.rectangle(
-                    salida,
-                    (x,y),
-                    (
-                        min(x+tamaño,ancho),
-                        min(y+tamaño,alto)
-                    ),
-                    color.tolist(),
-                    -1
-                )
+        for y in range(0, alto, tamaño):
 
-            elif figura == "Circles":
+            for x in range(0, ancho, tamaño):
 
-                radio = tamaño//2
+                bloque = img[
+                    y:min(y+tamaño,alto),
+                    x:min(x+tamaño,ancho)
+                ]
 
-                cv2.circle(
-                    salida,
-                    (cx,cy),
-                    radio,
-                    color.tolist(),
-                    -1
-                )
+                color = bloque.mean(axis=(0,1)).astype(np.uint8)
 
-            elif figura == "Hexagons":
+                cx = x + tamaño//2
+                cy = y + tamaño//2
 
-                r = tamaño//2
+                if figura == "Squares":
 
-                puntos = []
+                    cv2.rectangle(
+                        salida,
+                        (x,y),
+                        (
+                            min(x+tamaño,ancho),
+                            min(y+tamaño,alto)
+                        ),
+                        color.tolist(),
+                        -1
+                    )
 
-                for angulo in range(6):
+                elif figura == "Circles":
 
-                    a = math.radians(60*angulo)
+                    radio = tamaño//2
 
-                    px = int(cx + r*np.cos(a))
-                    py = int(cy + r*np.sin(a))
+                    cv2.circle(
+                        salida,
+                        (cx,cy),
+                        radio,
+                        color.tolist(),
+                        -1
+                    )
 
-                    puntos.append([px,py])
+                elif figura == "Hexagons":
 
-                puntos = np.array(puntos,np.int32)
+                    r = tamaño//2
 
-                cv2.fillPoly(
-                    salida,
-                    [puntos],
-                    color.tolist()
-                )
+                    puntos = []
 
-    resultado = Image.fromarray(salida)
+                    for angulo in range(6):
 
-    st.subheader("Result")
+                        a = math.radians(60*angulo)
 
-    st.image(resultado, use_container_width=True)
+                        px = int(cx + r*np.cos(a))
+                        py = int(cy + r*np.sin(a))
 
-    buffer = BytesIO()
+                        puntos.append([px,py])
 
-    resultado.save(buffer,format="PNG")
+                    puntos = np.array(puntos,np.int32)
 
-    st.download_button(
-        "Download mosaic",
-        buffer.getvalue(),
-        "mosaico.png",
-        "image/png"
-    )
+                    cv2.fillPoly(
+                        salida,
+                        [puntos],
+                        color.tolist()
+                    )
+
+        resultado = Image.fromarray(salida)
+
+        st.subheader("Result")
+
+        st.image(resultado, use_container_width=True)
+
+        buffer = BytesIO()
+
+        resultado.save(buffer,format="PNG")
+
+        st.download_button(
+            "Download mosaic",
+            buffer.getvalue(),
+            "mosaico.png",
+            "image/png"
+        )

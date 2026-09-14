@@ -50,6 +50,7 @@ def ecualizar_canal(canal):
     )
 
     # Transformar cada pixel
+    # Cada pixel se reemplaza por la nueva intensidad determinada por la CDF 
     canal_ecualizado = cdf_normalizada[
         canal
     ]

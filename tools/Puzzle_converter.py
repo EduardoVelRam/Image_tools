@@ -57,7 +57,7 @@ class RomboPuzzle:
 
         ruta = filedialog.askopenfilename(
             filetypes=[
-                ("Imágenes", "*.jpg *.jpeg *.png *.bmp")
+                ("Images", "*.jpg *.jpeg *.png *.bmp")
             ]
         )
 
@@ -116,7 +116,7 @@ class RomboPuzzle:
         if self.imagen_original is None:
             messagebox.showwarning(
                 "Aviso",
-                "Primero cargue una imagen"
+                "Load first an image"
             )
             return
 

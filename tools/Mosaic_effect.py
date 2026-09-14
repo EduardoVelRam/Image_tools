@@ -8,8 +8,7 @@ import math
 def run():
 
     st.set_page_config(
-        page_title="Mosaic effect",
-        page_icon="🧩"
+        page_title="Mosaic effect"
     )
 
     st.title("Mosaic Generator")

@@ -5,15 +5,12 @@ from io import BytesIO
 
 def run():
     
-    st.set_page_config(
-        page_title="Blanco y Azul",
-        page_icon="🔵"
-    )
+    
 
-    st.title("Conversor Blanco y Azul")
+    st.title("White and Blue Converter")
 
     archivo = st.file_uploader(
-        "Selecciona una imagen",
+        "Select an image",
         type=["png", "jpg", "jpeg", "bmp", "webp"]
     )
 
@@ -21,7 +18,7 @@ def run():
 
         imagen = Image.open(archivo).convert("L")
 
-        st.subheader("Imagen original")
+        st.subheader("Original image")
 
         st.image(
             imagen,
@@ -35,10 +32,10 @@ def run():
         # Color azul seleccionado por el usuario
         # -----------------------------------------
 
-        st.subheader("Configuración")
+        st.subheader("Configuration")
 
         azul = st.color_picker(
-            "Selecciona el color azul",
+            "Select the blue color",
             "#0057B8"
         )
 
@@ -84,7 +81,7 @@ def run():
             resultado
         )
 
-        st.subheader("Resultado")
+        st.subheader("Result")
 
         st.image(
             imagen_final,
@@ -103,7 +100,7 @@ def run():
         )
 
         st.download_button(
-            label="Descargar imagen",
+            label="Download image",
             data=buffer.getvalue(),
             file_name="imagen_blanco_azul.png",
             mime="image/png"

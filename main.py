@@ -3,11 +3,11 @@ import importlib
 import os
 
 st.set_page_config(
-    page_title="Herramientas para Imágenes",
+    page_title="Image Tools",
     layout="wide"
 )
 
-st.title("Colección de herramientas para imágenes")
+st.title("Image Tools Collection")
 
 CARPETA = "tools"
 

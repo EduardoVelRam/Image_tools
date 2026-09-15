@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 import cv2
 import numpy as np
 
-
+# This is the only code that does not work in Streamlit, it uses tkinter for the GUI.
 class RomboPuzzle:
 
     def __init__(self, root):
@@ -25,7 +25,7 @@ class RomboPuzzle:
             command=self.load_image
         ).pack(side="left", padx=5)
 
-        tk.Label(panel, text="Tamaño del rombo:").pack(side="left")
+        tk.Label(panel, text="Rhombus size:").pack(side="left")
 
         self.tamano = tk.IntVar(value=60)
 
@@ -183,7 +183,9 @@ class RomboPuzzle:
         )
 
 
-if __name__ == "__main__":
+def run():
+
+#if __name__ == "__main__":
 
     root = tk.Tk()
     app = RomboPuzzle(root)

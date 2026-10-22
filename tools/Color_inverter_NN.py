@@ -41,7 +41,7 @@ def entrenar_red():
         )
 
         # Entrenamiento
-    for epoch in range(5000):
+    for epoch in range(500):
 
             # Forward
         prediccion = modelo(x)

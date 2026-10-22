@@ -8,17 +8,17 @@ from io import BytesIO
 
 def run():
 
-    st.title("Filtro Gaussiano")
+    st.title("Gaussian Filter")
 
     st.write(
-        "Aplica un filtro gaussiano para suavizar una imagen. "
-        "Puedes ajustar la intensidad del desenfoque y "
-        "descargar el resultado."
+        "Applies a Gaussian filter to smooth an image. "
+        "You can adjust the intensity of the blur and "
+        "download the result."
     )
 
     # Cargar imagen
     archivo = st.file_uploader(
-        "Selecciona una imagen",
+        "Select an image to process",
         type=["png", "jpg", "jpeg", "bmp", "webp"]
     )
 
@@ -30,7 +30,7 @@ def run():
 
     img = np.array(imagen)
 
-    st.subheader("Imagen original")
+    st.subheader("Original Image")
 
     st.image(
         imagen,
@@ -40,29 +40,29 @@ def run():
     st.divider()
 
     # Parámetros del filtro
-    st.subheader("Configuración del filtro")
+    st.subheader("Filter Configuration")
 
     intensidad = st.slider(
-        "Intensidad del desenfoque",
+        "Blur Intensity (Kernel Size)",
         min_value=1,
         max_value=51,
         value=11,
         step=2,
         help=(
-            "Valores mayores generan un desenfoque más intenso. "
-            "El tamaño del kernel debe ser impar."
+            "Higher values generate a more intense blur. "
+            "The kernel size must be odd."
         )
     )
 
     sigma = st.slider(
-        "Sigma (desviación estándar)",
+        "Sigma (standard deviation)",
         min_value=0.1,
         max_value=15.0,
         value=3.0,
         step=0.1,
         help=(
-            "Controla la dispersión de la función gaussiana. "
-            "Valores mayores producen un suavizado más intenso."
+            "Controls the spread of the Gaussian function. "
+            "Higher values produce a more intense smoothing."
         )
     )
 
@@ -77,7 +77,7 @@ def run():
     imagen_resultado = Image.fromarray(resultado)
 
     # Mostrar comparación
-    st.subheader("Comparación")
+    st.subheader("Comparison")
 
     col1, col2 = st.columns(2)
 
@@ -91,7 +91,7 @@ def run():
     with col2:
         st.image(
             imagen_resultado,
-            caption="Filtro gaussiano",
+            caption="Gaussian Filter",
             use_container_width=True
         )
 
@@ -104,7 +104,7 @@ def run():
     )
 
     st.download_button(
-        label="Descargar imagen procesada",
+        label="Download Processed Image",
         data=buffer.getvalue(),
         file_name="imagen_filtro_gaussiano.png",
         mime="image/png"

@@ -22,8 +22,6 @@ ImageProcessingTools/
 │   ├── ...
 │   └── ...
 │
-├── requirements.txt
-│
 └── README.md
 ```
 

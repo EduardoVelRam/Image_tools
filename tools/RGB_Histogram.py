@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 def calcular_histograma(canal):
     """
-    Calcula el histograma de un canal de imagen.
+    Get the histogram of a single channel of an image.
     """
 
     histograma, bins = np.histogram(
@@ -20,12 +20,12 @@ def calcular_histograma(canal):
 
 def ecualizar_canal(canal):
     """
-    Ecualización de histograma mediante CDF.
+    Equalization of histogram using CDF.
     """
 
     histograma = calcular_histograma(canal)
 
-    # Función de distribución acumulada
+    # Cumulative distribution function
     cdf = histograma.cumsum()
 
     # Eliminar valores donde no hay píxeles
@@ -69,8 +69,8 @@ def mostrar_histograma(canal, titulo):
     )
 
     ax.set_title(titulo)
-    ax.set_xlabel("Intensidad")
-    ax.set_ylabel("Número de píxeles")
+    ax.set_xlabel("Intensity value")
+    ax.set_ylabel("NNumber of pixels")
 
     ax.set_xlim(0, 255)
 
@@ -85,13 +85,13 @@ def mostrar_histograma(canal, titulo):
 def run():
 
     st.set_page_config(
-        page_title="Histogramas RGB"
+        page_title="RGB histogram",
     )
 
-    st.title("Histogramas RGB")
+    st.title("RGB Histograms")
 
     archivo = st.file_uploader(
-        "Selecciona una imagen",
+        "Select an image",
         type=[
             "png",
             "jpg",
@@ -113,7 +113,7 @@ def run():
 
     img = np.array(imagen)
 
-    st.subheader("Imagen original")
+    st.subheader("Original Image")
 
     st.image(
         imagen,
@@ -131,18 +131,18 @@ def run():
     # Histogramas originales
     
 
-    st.subheader("Histogramas originales")
+    st.subheader("Original Histograms")
 
-    with st.expander("Histograma R"):
+    with st.expander("Red Channel Histogram"):
         mostrar_histograma(
             R,
-            "Histograma del canal R"
+            "Histogram of the Red Channel"
         )
 
-    with st.expander("Histograma G"):
+    with st.expander("G histogram"):
         mostrar_histograma(
             G,
-            "Histograma del canal G"
+            "G channel histogram"
         )
 
     with st.expander("Histograma B"):

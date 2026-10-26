@@ -1,21 +1,35 @@
-```python
+
 import streamlit as st
 import cv2
 import numpy as np
-
+from pathlib import Path
 from PIL import Image
 from io import BytesIO
 
 
 @st.cache_resource
+
 def cargar_detector():
-    ruta = cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
-    detector = cv2.CascadeClassifier(ruta)
+    ruta = (
+        Path(__file__).resolve().parent.parent
+        / "models"
+        / "haarcascade_frontalface_default.xml"
+    )
+
+    if not ruta.is_file():
+        raise FileNotFoundError(
+            f"No se encontró el clasificador facial: {ruta}"
+        )
+
+    detector = cv2.CascadeClassifier(str(ruta))
 
     if detector.empty():
-        raise RuntimeError("No se pudo cargar el detector facial de OpenCV.")
+        raise RuntimeError(
+            f"OpenCV encontró el archivo, pero no pudo cargarlo: {ruta}"
+        )
 
     return detector
+
 
 
 def reducir_brillo(imagen, factor):

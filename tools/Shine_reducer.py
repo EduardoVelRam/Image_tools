@@ -34,27 +34,27 @@ def cargar_detector():
 
 def reducir_brillo(imagen, factor):
     """
-    Reduce el brillo multiplicando los valores de intensidad RGB.
-    factor = 1.0: brillo original.
-    factor = 0.5: aproximadamente la mitad de la intensidad.
-    factor = 0.0: imagen negra.
+    Reduces brightness by multiplying the RGB intensity values. 
+    factor = 1.0: original brightness. 
+    factor = 0.5: approximately half the intensity. 
+    factor = 0.0: black image.
     """
     resultado = imagen.astype(np.float32) * factor
     return np.clip(resultado, 0, 255).astype(np.uint8)
 
 
 def run():
-    st.title("Reductor de brillo facial")
+    st.title("Facial shine reducer")
 
     st.write(
         """
-        Reduce el brillo de una imagen completa o solamente del rostro
-        detectado. Puedes ajustar la intensidad y comparar los resultados.
+        Reduce the brightness of an entire image or just the detected face. 
+        You can adjust the intensity and compare the results.
         """
     )
 
     archivo = st.file_uploader(
-        "Selecciona una fotografía",
+        "Pick a photograph",
         type=["png", "jpg", "jpeg", "bmp", "webp"]
     )
 
@@ -64,25 +64,25 @@ def run():
     imagen_pil = Image.open(archivo).convert("RGB")
     imagen = np.array(imagen_pil)
 
-    st.subheader("Imagen original")
+    st.subheader("Original image")
     st.image(imagen_pil, width="stretch")
 
     st.divider()
 
     # Configuración
-    st.subheader("Configuración")
+    st.subheader("Configuration")
 
     modo = st.radio(
-        "Área de aplicación",
+        "Áplication region",
         options=[
-            "Imagen completa",
-            "Solo el rostro"
+            "Full imagen",
+            "Just the face"
         ],
         horizontal=True
     )
 
     intensidad = st.slider(
-        "Reducción del brillo (%)",
+        "Shine reduction (%)",
         min_value=0,
         max_value=90,
         value=30,
